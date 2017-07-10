@@ -11,6 +11,8 @@
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
     "express": "^4.15.3",
+    "express-mustache": "^1.0.3",
+    "jsonwebtoken": "^7.4.1",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.1",
     "morgan": "^1.8.2",
