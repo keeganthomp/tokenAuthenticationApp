@@ -16,9 +16,6 @@ function checkAuth(req, res, next) {
     }
 
     console.log("tokenData", tokenData);
-    // if () {
-    //   return res.status(400).send("Error");
-    // }
 
     req.user = tokenData.user;
     next();

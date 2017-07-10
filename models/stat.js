@@ -7,7 +7,7 @@ var statSchema = new Schema({
     required: true
   },
   user: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   activity: {
