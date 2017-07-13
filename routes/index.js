@@ -23,7 +23,6 @@ router.post("/activities", (req, res) => {
     });
 });
 
-
 router.get("/activities/:id", (req, res) => {
   Stat.find({_id: req.params.id}, {activity:1, _id:0}).then(foundStats => {
     res.send(foundStats);

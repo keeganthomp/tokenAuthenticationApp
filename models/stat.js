@@ -3,16 +3,24 @@ var Schema = mongoose.Schema;
 
 var statSchema = new Schema({
   activity: {
-    type: String,
-    required: true
-  },
-  thing_measured: {
-    type: String,
-    required: true,
-    stat: {
-      type: Number,
-      required: true,
-      default: 0
+    thing_measured: {
+      column_name: {
+        type: String,
+        required: true
+      },
+      stat: [
+        {
+          date: {
+            type: Date,
+            required: true
+          },
+          value: {
+            type: Number,
+            required: true,
+            default: 0
+          }
+        }
+      ]
     }
   }
 });
