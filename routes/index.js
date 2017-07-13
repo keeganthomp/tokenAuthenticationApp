@@ -3,18 +3,15 @@ var router = express.Router();
 var Stat = require("../models/stat");
 
 
-/* GET home page. */
-router.get("/", function(req, res, next) {
-  res.render("index", { title: "Express" });
-});
 
-router.get("/stats", (req, res) => {
+router.get("/activities", (req, res) => {
   Stat.find().then(foundStats => {
     res.send(foundStats);
   });
 });
 
-router.post("/stats", (req, res) => {
+
+router.post("/activities", (req, res) => {
   var statContent = req.body;
   var newStat = new Stat(statContent);
   newStat.save()
@@ -24,6 +21,20 @@ router.post("/stats", (req, res) => {
     .then(err => {
       res.send(err);
     });
+});
+
+
+router.get("/activities/:id", (req, res) => {
+  Stat.find({_id: req.params.id}, {activity:1, _id:0}).then(foundStats => {
+    res.send(foundStats);
+  });
+});
+
+router.put("/activities/:id", (req, res) => {
+  Stat.updateOne({_id: req.params.id}, req.body)
+  .then(updatedStats => {
+    res.send(updatedStats);
+  });
 });
 
 module.exports = router;
