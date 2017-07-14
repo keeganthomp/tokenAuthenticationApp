@@ -4,6 +4,7 @@ var User = require("../models/user");
 var jwt = require("jsonwebtoken");
 var jwtConfig = require("../jwtConfig");
 var Stat = require("../models/stat");
+var checkAuth = require("../middleware/auth");
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
