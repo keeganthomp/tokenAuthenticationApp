@@ -84,4 +84,11 @@ router.put("/activities/:id", (req, res) => {
   });
 });
 
+router.delete("/activities/:id", (req, res) => {
+  Stat.remove({_id: req.params.id})
+  .then(deletedStat => {
+    res.send("You deleted an activity");
+  });
+});
+
 module.exports = router;
