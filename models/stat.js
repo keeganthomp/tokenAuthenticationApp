@@ -10,11 +10,9 @@ var statSchema = new Schema({
     {
       date: {
         type: Date,
-        required: true
       },
       value: {
         type: Number,
-        required: true,
         default: 0
       }
     }

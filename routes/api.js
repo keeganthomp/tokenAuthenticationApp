@@ -5,7 +5,6 @@ var jwt = require("jsonwebtoken");
 var jwtConfig = require("../jwtConfig");
 var Stat = require("../models/stat");
 
-
 /* GET users listing. */
 router.get("/", function(req, res, next) {
   User.find().then(allUsers => {
@@ -58,37 +57,63 @@ router.get("/activities", (req, res) => {
   });
 });
 
-
 router.post("/activities", (req, res) => {
-  var statContent = req.body;
-  var newStat = new Stat(statContent);
-  newStat.save()
-    .then(addedStat => {
-      res.send(addedStat);
+  var activityContent = req.body;
+  var newActivity = new Stat(activityContent);
+  newActivity
+    .save()
+    .then(addedActivity => {
+      res.send(addedActivity);
     })
     .then(err => {
       res.send(err);
     });
 });
 
+router.post("/activities/:id/stats", (req, res) => {
+  console.log(":::::::::", req.body);
+  Stat.findOne({ _id: req.params.id }).then(statToUpdate => {
+    var statToUpdate = {
+      activity: statToUpdate.activity,
+      stat: {
+        date: req.body.date,
+        value: req.body.value
+      }
+    };
+    Stat.updateOne({ _id: req.params.id }, statToUpdate);
+    res.send({ this_is_your_stat_value: statToUpdate });
+  });
+});
+
 router.get("/activities/:id", (req, res) => {
-  Stat.find({_id: req.params.id}, {activity:1, _id:0}).then(foundStats => {
+  Stat.find(
+    { _id: req.params.id },
+    { activity: 1, _id: 0 }
+  ).then(foundStats => {
     res.send(foundStats);
   });
 });
 
 router.put("/activities/:id", (req, res) => {
-  Stat.updateOne({_id: req.params.id}, req.body)
-  .then(updatedStats => {
+  Stat.updateOne({ _id: req.params.id }, req.body).then(updatedStats => {
     res.send(updatedStats);
   });
 });
 
 router.delete("/activities/:id", (req, res) => {
-  Stat.remove({_id: req.params.id})
-  .then(deletedStat => {
+  Stat.remove({ _id: req.params.id }).then(deletedStat => {
     res.send("You deleted an activity");
   });
+});
+
+router.delete("/activities/:activityId/stats/:statId", (req, res) => {
+  Stat.findByIdAndUpdate(req.params.activityId, {
+    "$pull": { "stat": { "_id": req.params.statId } }
+  })
+    .then(deletedStat => {
+      res.send("You deleted a stat");
+    })
+    .catch(err => res.send(err));
 });
 
 module.exports = router;
